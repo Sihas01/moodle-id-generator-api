@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User ID Card</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 50px;
+            margin: 0;
+        }
+
+        .id-card-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .id-card-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            height: 100px;
+            position: relative;
+        }
+
+        .profile-image-container {
+            width: 120px;
+            height: 120px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e0e0e0;
+        }
+
+        .profile-placeholder {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: #757575;
+        }
+
+        .card-body {
+            padding-top: 70px;
+            padding-bottom: 30px;
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+            margin-bottom: 5px;
+        }
+
+        .user-role {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: #e9ecef;
+            padding: 4px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            text-align: left;
+            padding: 0 30px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #eee;
+            margin-top: 10px;
+        }
+
+        .qr-section {
+            margin-top: 20px;
+
+            border-radius: 12px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
+            display: inline-block;
+        }
+
+        .qr-label {
+            font-size: 10px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .qr-code-img {
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .download-btn {
+            margin-top: 30px;
+            background: linear-gradient(135deg, #ea667a 0%, #6f3233 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="download-container">
+        <div class="id-card-container" id="id-card">
+            <div class="card-header"></div>
+
+            <div class="profile-image-container">
+                <% if (profile_image) { %>
+                    <img src="<%= profile_image %>" alt="Profile" class="profile-image">
+                    <% } else { %>
+                        <div class="profile-placeholder">
+                            <%= name.charAt(0).toUpperCase() %>
+                        </div>
+                        <% } %>
+            </div>
+
+            <div class="card-body">
+                <h2 class="user-name">
+                    <%= name %>
+                </h2>
+                <span class="user-role">
+                    <%= roles %>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Student ID</span>
+                            <span class="info-value">
+                                <%= user_id %>
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Enrolled Courses</span>
+                            <% if (courses && courses.length> 0) { %>
+                                <ul style="margin: 5px 0 0 0; padding-left: 0; list-style-type: none;">
+                                    <% courses.forEach(function(course) { %>
+                                        <li style="margin-bottom: 4px;">
+                                            <span class="info-value">
+                                                <%= course %>
+                                            </span>
+                                        </li>
+                                        <% }); %>
+                                </ul>
+                                <% } else { %>
+                                    <span class="info-value">No courses found</span>
+                                    <% } %>
+                        </div>
+
+                        <% if (qr_code) { %>
+                            <div style="text-align: center; margin-top: 10px;">
+                                <div class="qr-section">
+                                    <img src="<%= qr_code %>" alt="User QR Code" class="qr-code-img">
+                                </div>
+                            </div>
+                            <% } %>
+
+                                <% if (email) { %>
+                                    <div class="info-item">
+                                        <span class="info-label">Email</span>
+                                        <span class="info-value">
+                                            <%= email %>
+                                        </span>
+                                    </div>
+                                    <% } %>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <img src="/LearnXPlus_Final_Logo.png" alt="logo" width="100">
+                </div>
+            </div>
+        </div>
+
+        <button class="download-btn" id="download-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download ID Card
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        document.getElementById('download-btn').addEventListener('click', function () {
+            const card = document.getElementById('id-card');
+
+            // Use html2canvas to capture the card
+            html2canvas(card, {
+                useCORS: true,
+                scale: 2, 
+                backgroundColor: null, 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'ID-Card-<%= name %>.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+    </script>
+</body>
+
+</html>
